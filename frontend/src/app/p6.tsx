@@ -17,9 +17,10 @@ export default function P6() {
   const progress = getSavingsProgress();
   const cuotaNumber = Number(cuota) || progress.paidCount || 1;
   const total = progress.totalAportes;
-  const isLast = cuotaNumber >= total;
-  const remaining = total - cuotaNumber;
-  const paidSoFar = cuotaNumber * progress.aporteAmount;
+  const scheduleEnded = cuotaNumber >= total;
+  const fullyCompleted = progress.paidCount >= total;
+  const remaining = Math.max(0, total - progress.paidCount);
+  const paidSoFar = progress.paidAmount;
   const thisInstallment = progress.installments.find((item) => item.number === cuotaNumber);
   const nextInstallment = progress.installments.find((item) => item.number === cuotaNumber + 1);
   const operationNumber = String(4812300 + cuotaNumber * 7);
@@ -48,10 +49,15 @@ export default function P6() {
 
           <DateTimeRow date={thisInstallment?.date ?? '—'} time="11:31 a. m." />
 
-          {isLast ? (
+          {fullyCompleted ? (
             <InfoNote
               lead="¡Completaste tu reto!"
               text={`Ya hiciste tus ${total} aportes. Revisa tu resultado final.`}
+            />
+          ) : scheduleEnded ? (
+            <InfoNote
+              lead="Llegaste al final de tu plan"
+              text={`Pagaste ${progress.paidCount} de ${total} aportes (S/ ${paidSoFar} de S/ ${progress.goalAmount}). Revisa tu resultado final.`}
             />
           ) : thisInstallment?.rescheduled ? (
             <InfoNote
@@ -114,8 +120,8 @@ export default function P6() {
 
         <View style={styles.buttonWrapper}>
           <ContinueButton
-            label={isLast ? 'Ver mi resultado' : 'Ver mis cuotas'}
-            onPress={() => router.push(isLast ? '/p9' : '/p7')}
+            label={scheduleEnded ? 'Ver mi resultado' : 'Ver mis cuotas'}
+            onPress={() => router.push(scheduleEnded ? '/p9' : '/p7')}
           />
         </View>
       </ScrollView>
