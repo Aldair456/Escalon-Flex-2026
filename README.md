@@ -46,6 +46,6 @@ npm run start
 
 | | |
 |---|---|
-| ![Arma tu plan de ahorro](docs/screenshots/01-plan-ahorro-monto.png) | ![Frecuencia y resumen del plan](docs/screenshots/02-plan-ahorro-frecuencia.png) |
-| ![Tu ahorro, tu compromiso](docs/screenshots/03-compromiso-ahorro.png) | ![Mis cuotas](docs/screenshots/04-mis-cuotas.png) |
-| ![Mi perfil financiero](docs/screenshots/05-perfil-financiero.png) | ![Análisis de perfil con IA](docs/screenshots/06-analisis-ia.png) |
+| ![Arma tu plan de ahorro](docs/screenshots/01-plan-ahorro-monto.png) <br> **Arma tu plan de ahorro** — el usuario define cuánto quiere ahorrar y para cuándo. | ![Frecuencia y resumen del plan](docs/screenshots/02-plan-ahorro-frecuencia.png) <br> **Frecuencia de aporte** — elige cada cuánto y cuánto va a aportar, con el resumen del plan. |
+| ![Tu ahorro, tu compromiso](docs/screenshots/03-compromiso-ahorro.png) <br> **Tu ahorro, tu compromiso** — explica que cada aporte construye un perfil de comportamiento financiero. | ![Mis cuotas](docs/screenshots/04-mis-cuotas.png) <br> **Mis cuotas** — cronograma de pagos con el avance de aportes pagados, pendientes y reprogramados. |
+| ![Mi perfil financiero](docs/screenshots/05-perfil-financiero.png) <br> **Mi perfil financiero** — nivel Escalón, score, comportamiento de los últimos 6 meses y progreso general. | ![Análisis de perfil con IA](docs/screenshots/06-analisis-ia.png) <br> **Análisis con IA** — evaluación automática del comportamiento financiero y elegibilidad para una reevaluación crediticia. |
