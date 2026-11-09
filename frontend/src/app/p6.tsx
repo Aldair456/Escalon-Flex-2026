@@ -75,7 +75,7 @@ export default function P6() {
 
           <Text style={styles.sectionLabel}>Datos del aporte</Text>
           <SummaryRow label="Aporte" value={`${cuotaNumber} de ${total}`} />
-          <SummaryRow label="Destino" value="Mi reto Construye tu ahorro" />
+          <SummaryRow label="Destino" value="Mi reto Construye tu perfil" />
           <SummaryRow label="Nro. de operación" value={operationNumber} />
           <SummaryRow label="Próximo aporte" value={nextInstallment?.date ?? '—'} />
 
