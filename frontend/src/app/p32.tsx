@@ -50,15 +50,17 @@ export default function P32() {
 
           <View style={styles.row}>
             <Text style={[styles.rowIcon, styles.percentIcon]}>%</Text>
-            <Text style={styles.rowLabel}>Tasa (mensual, referencial)</Text>
+            <Text style={styles.rowLabel}>Tasa (mensual)</Text>
             <Text style={styles.rowValue}>{term.tea}</Text>
           </View>
 
           <View style={styles.row}>
             <View style={styles.rowIcon} />
-            <Text style={styles.rowLabel}>TCEA (anual, referencial)</Text>
+            <Text style={styles.rowLabel}>TCEA (anual)</Text>
             <Text style={styles.rowValue}>≈ {term.tcea}</Text>
           </View>
+
+          <Text style={styles.rateNote}>Referencial · No es una oferta, no está garantizado</Text>
 
           <View style={styles.row}>
             <Ionicons name="cash-outline" size={20} color={colors.primary} style={styles.rowIcon} />
@@ -187,6 +189,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '800',
     color: colors.text,
+  },
+  rateNote: {
+    fontSize: 11,
+    color: colors.textMuted,
+    marginTop: -4,
+    marginBottom: 6,
+    marginLeft: 36,
   },
   rowValueBold: {
     fontSize: 17,
