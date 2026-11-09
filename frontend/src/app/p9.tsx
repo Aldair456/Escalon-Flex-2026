@@ -6,14 +6,15 @@ import { ReceiptTopBar } from '@/components/payment-receipt/ReceiptTopBar';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
 import { InfoNote } from '@/components/credit-plan/InfoNote';
 import { SummaryRow } from '@/components/credit-plan/SummaryRow';
-import { getSavingsPlan } from '@/state/savingsPlan';
+import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 
 export default function P9() {
-  const plan = getSavingsPlan();
-  const goalAmount = plan?.goalAmount ?? 300;
-  const totalAportes = plan?.estimatedAportes ?? 6;
+  const progress = getSavingsProgress();
+  const fullyCompleted = progress.paidCount >= progress.totalAportes;
+  const onTimeCount = progress.paidCount - progress.missedCount;
+  const punctuality = Math.round((Math.max(0, onTimeCount) / progress.totalAportes) * 100);
 
   return (
     <View style={styles.container}>
@@ -23,25 +24,35 @@ export default function P9() {
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
-          <Text style={styles.title}>¡Felicidades! Completaste tu reto</Text>
+          <Text style={styles.title}>
+            {fullyCompleted ? '¡Felicidades! Completaste tu reto' : 'Llegaste al final de tu plan'}
+          </Text>
 
           <Text style={styles.paragraph}>
-            Tus <Text style={styles.bold}>S/ {goalAmount}</Text> ya están en tu Yape. Hiciste{' '}
+            Tus <Text style={styles.bold}>S/ {progress.paidAmount}</Text> ya están en tu Yape. Hiciste{' '}
             <Text style={styles.bold}>
-              {totalAportes} de {totalAportes} aportes
-            </Text>{' '}
-            a tiempo.
+              {progress.paidCount} de {progress.totalAportes} aportes
+            </Text>
+            {progress.missedCount > 0 ? `, con ${progress.missedCount} sin pagar.` : ' a tiempo.'}
           </Text>
 
           <View style={styles.divider} />
 
           <Text style={styles.sectionLabel}>Tu resultado</Text>
-          <SummaryRow label="Nivel" value="Hábito de ahorro consolidado" highlight />
-          <SummaryRow label="Puntualidad" value="100%" />
-          <SummaryRow label="Monto liberado" value={`S/ ${goalAmount}.00`} />
+          <SummaryRow
+            label="Nivel"
+            value={fullyCompleted ? 'Hábito de ahorro consolidado' : 'En construcción'}
+            highlight
+          />
+          <SummaryRow label="Puntualidad" value={`${punctuality}%`} />
+          <SummaryRow label="Monto liberado" value={`S/ ${progress.paidAmount}.00`} />
           <SummaryRow label="Perfil de ahorro actualizado" value="Sí ✓" highlight />
-          <SummaryRow label="Bono por completar tu reto" value="+S/ 5" highlight />
-          <SummaryRow label="Vale de descuento" value="10% en Yape Promos" highlight />
+          {fullyCompleted && (
+            <>
+              <SummaryRow label="Bono por completar tu reto" value="+S/ 5" highlight />
+              <SummaryRow label="Vale de descuento" value="10% en Yape Promos" highlight />
+            </>
+          )}
 
           <InfoNote text="Con tu autorización, estas señales podrían considerarse en una futura evaluación del BCP. La aprobación de crédito no está garantizada." />
         </View>
