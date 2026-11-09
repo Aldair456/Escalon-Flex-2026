@@ -1,6 +1,6 @@
 # Escalón Flex
 
-**Escalón Flex** es una propuesta de producto construida sobre la app de **Yape**, pensada para las personas que hoy no pueden acceder a un crédito porque no tienen historial crediticio.
+**Escalón Flex** es una propuesta de producto construida sobre la app de **Yape**, pensada para las personas que hoy no pueden acceder a un crédito porque no tienen perfil financiero.
 
 En vez de rechazarlas sin más, Escalón Flex las ayuda a **construir ese historial desde cero**: eligen una meta de ahorro, se comprometen a aportes pequeños y constantes, y van subiendo de nivel (Inicial → En construcción → Sólido → Listo para tu crédito) a medida que cumplen. Con ese comportamiento de ahorro, Yape puede evaluarlas y ofrecerles un microcrédito real más adelante — sin necesidad de historial bancario previo.
 

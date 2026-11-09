@@ -30,7 +30,7 @@ export default function P7() {
             <Pressable onPress={() => router.back()} hitSlop={8}>
               <Ionicons name="arrow-back" size={24} color={colors.white} />
             </Pressable>
-            <Text style={styles.headerTitle}>Mis cuotas</Text>
+            <Text style={styles.headerTitle}>Mis aportes</Text>
             <View style={{ width: 28 }} />
           </SafeAreaView>
         </View>
@@ -60,7 +60,7 @@ export default function P7() {
           <Pressable onPress={() => router.back()} hitSlop={8}>
             <Ionicons name="arrow-back" size={24} color={colors.white} />
           </Pressable>
-          <Text style={styles.headerTitle}>Mis cuotas</Text>
+          <Text style={styles.headerTitle}>Mis aportes</Text>
 
           <Pressable onPress={() => router.push('/p28')} hitSlop={8}>
             <Ionicons name="person-circle-outline" size={28} color={colors.white} />
@@ -95,7 +95,7 @@ export default function P7() {
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>Cronograma de pagos</Text>
+            <Text style={styles.cardTitle}>Plan de aportes</Text>
 
             <View style={styles.monthlyPill}>
               <Ionicons name="calendar-outline" size={14} color={colors.primary} />

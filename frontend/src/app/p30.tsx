@@ -10,7 +10,6 @@ import { shadows } from '@/theme/shadows';
 const CHECKLIST = [
   'Montos pequeños y flexibles',
   'Plazos que se ajustan a ti',
-  'Tasas claras y sin sorpresas',
 ];
 
 export default function P30() {
@@ -25,7 +24,7 @@ export default function P30() {
       </SafeAreaView>
 
       <View style={styles.content}>
-        <Text style={styles.heading}>Simulador de microcrédito</Text>
+        <Text style={styles.heading}>Simulación orientativa</Text>
         <Text style={styles.subheading}>Conoce una opción de crédito según tu perfil y simula tus pagos.</Text>
 
         <Image
@@ -47,7 +46,7 @@ export default function P30() {
       </View>
 
       <Pressable style={styles.button} onPress={() => router.push('/p31')}>
-        <Text style={styles.buttonText}>Simular crédito</Text>
+        <Text style={styles.buttonText}>Ver mi simulación</Text>
       </Pressable>
     </View>
   );

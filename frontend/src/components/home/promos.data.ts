@@ -28,7 +28,7 @@ export const promos: Promo[] = [
     id: 'construye-credito',
     variant: 'feature',
     badge: 'Construye crédito',
-    eyebrow: '¿Sin historial crediticio?',
+    eyebrow: '¿Sin perfil financiero?',
     heading: 'PRACTICA TU PRIMER CRÉDITO',
     disclaimer: '*Es un préstamo respaldado. Sujeto a evaluación.',
   },

@@ -60,6 +60,8 @@ export default function P32() {
             <Text style={styles.rowValue}>≈ {term.tcea}</Text>
           </View>
 
+          <Text style={styles.rateNote}>Referencial · No es una oferta, no está garantizado</Text>
+
           <View style={styles.row}>
             <Ionicons name="cash-outline" size={20} color={colors.primary} style={styles.rowIcon} />
             <Text style={styles.rowLabel}>Cuota mensual</Text>
@@ -81,7 +83,7 @@ export default function P32() {
           />
 
           <View style={styles.bubble}>
-            <Text style={styles.bubbleTitle}>¡Puedes acceder a este microcrédito!</Text>
+            <Text style={styles.bubbleTitle}>¿A qué podrías aspirar?</Text>
             <Text style={styles.bubbleDescription}>
               Según tu perfil y constancia de ahorro en Escalón Flex.
             </Text>
@@ -94,8 +96,8 @@ export default function P32() {
         </Text>
       </ScrollView>
 
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText}>Solicitar microcrédito</Text>
+      <Pressable style={styles.button} onPress={() => router.push('/p28')}>
+        <Text style={styles.buttonText}>Volver a mi perfil</Text>
       </Pressable>
 
       <Pressable style={styles.secondaryLink} onPress={() => router.back()}>
@@ -187,6 +189,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '800',
     color: colors.text,
+  },
+  rateNote: {
+    fontSize: 11,
+    color: colors.textMuted,
+    marginTop: -4,
+    marginBottom: 6,
+    marginLeft: 36,
   },
   rowValueBold: {
     fontSize: 17,

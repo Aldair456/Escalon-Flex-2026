@@ -25,7 +25,7 @@ const PILL_CONFIG: Record<
   InstallmentStatus,
   { bg: string; color: string; icon: keyof typeof Ionicons.glyphMap; label: string }
 > = {
-  paid: { bg: '#D1FAE5', color: '#16A34A', icon: 'checkmark', label: 'Pagada a tiempo' },
+  paid: { bg: '#D1FAE5', color: '#16A34A', icon: 'checkmark', label: 'A tiempo' },
   missed: { bg: '#FEE2E2', color: '#DC2626', icon: 'close', label: 'No pagada' },
   next: { bg: '#F3EEFA', color: colors.primary, icon: 'calendar', label: 'Próxima' },
   pending: { bg: '#F3F4F6', color: colors.textMuted, icon: 'time-outline', label: 'Pendiente' },
@@ -41,7 +41,7 @@ export function InstallmentTimelineRow({
 }: InstallmentTimelineRowProps) {
   const circle = CIRCLE_CONFIG[status];
   const pill = PILL_CONFIG[status];
-  const pillLabel = status === 'paid' && rescheduled ? 'Pagada (reprogramada)' : pill.label;
+  const pillLabel = status === 'paid' && rescheduled ? 'Aportado (reprogramada)' : pill.label;
   const lineColor = status === 'pending' ? colors.border : status === 'missed' ? '#DC2626' : colors.accent;
   const highlighted = status === 'next';
 
@@ -62,7 +62,7 @@ export function InstallmentTimelineRow({
 
       <View style={styles.content}>
         <View style={styles.textCol}>
-          <Text style={styles.title}>Cuota {number}</Text>
+          <Text style={styles.title}>Aporte {number}</Text>
           <Text style={styles.date}>{date}</Text>
         </View>
 

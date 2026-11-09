@@ -110,7 +110,7 @@ export default function P6() {
             </View>
 
             <View style={styles.referralText}>
-              <Text style={styles.referralTitle}>Tu score subió</Text>
+              <Text style={styles.referralTitle}>Tu constancia subió</Text>
               <Text style={styles.referralSubtitle}>Mira cuánto mejoró</Text>
             </View>
 
@@ -120,7 +120,7 @@ export default function P6() {
 
         <View style={styles.buttonWrapper}>
           <ContinueButton
-            label={scheduleEnded ? 'Ver mi resultado' : 'Ver mis cuotas'}
+            label={scheduleEnded ? 'Ver mi resultado' : 'Ver mis aportes'}
             onPress={() => router.push(scheduleEnded ? '/p9' : '/p7')}
           />
         </View>

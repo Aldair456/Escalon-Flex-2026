@@ -21,14 +21,14 @@ export const faqEntries: FaqEntry[] = [
   },
   {
     id: 'historial',
-    question: '¿Cómo se construye un historial crediticio?',
+    question: '¿Cómo se construye un perfil financiero?',
     answer:
-      'Pagando tus cuotas a tiempo. Como es un préstamo real, cada pago puntual se reporta y construye tu historial crediticio formal.',
+      'Pagando tus cuotas a tiempo. Como es un préstamo real, cada pago puntual se reporta y construye tu perfil financiero formal.',
   },
   {
     id: 'sbs',
     question: '¿Esto aparece en la SBS?',
-    answer: 'Sí. Es un préstamo real de BCP, así que tus pagos puntuales sí generan historial crediticio formal.',
+    answer: 'Sí. Es un préstamo real de BCP, así que tus pagos puntuales sí generan tu perfil financiero formal.',
   },
   {
     id: 'atraso',
@@ -40,6 +40,6 @@ export const faqEntries: FaqEntry[] = [
     id: 'termino',
     question: '¿Qué pasa cuando termino?',
     answer:
-      'El banco libera tu monto bloqueado y ya tienes historial crediticio real para postular a tu primer producto de crédito.',
+      'El banco libera tu monto bloqueado y ya tienes un perfil financiero real para postular a tu primer producto de crédito.',
   },
 ];

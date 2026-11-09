@@ -29,7 +29,7 @@ export default function P15() {
         <View style={styles.noteWrapper}>
           <InfoNote
             lead="Importante:"
-            text="Ahorrar no genera historial crediticio formal, pero te prepara para cuando sí califiques."
+            text="Ahorrar no genera un perfil financiero formal, pero te prepara para cuando sí califiques."
           />
         </View>
       </ScrollView>
