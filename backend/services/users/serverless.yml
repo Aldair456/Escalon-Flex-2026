@@ -1,0 +1,32 @@
+service: users-service
+
+provider:
+  name: aws
+  runtime: python3.12
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+
+plugins:
+  - serverless-python-requirements
+
+functions:
+  getUsers:
+    handler: src.handlers.get_users_handler.lambda_handler
+    events:
+      - httpApi:
+          path: /users
+          method: get
+
+  getUserById:
+    handler: src.handlers.get_user_by_id_handler.lambda_handler
+    events:
+      - httpApi:
+          path: /users/{id}
+          method: get
+
+  createUser:
+    handler: src.handlers.create_user_handler.lambda_handler
+    events:
+      - httpApi:
+          path: /users
+          method: post
