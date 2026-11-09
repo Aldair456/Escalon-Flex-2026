@@ -60,7 +60,7 @@ export default function P9() {
         <View style={styles.actions}>
           <ContinueButton label="Volver a Yape" onPress={() => router.push('/p24')} />
           <ContinueButton
-            label="Ver mis cuotas completas"
+            label="Ver mis aportes completos"
             variant="secondary"
             onPress={() => router.push('/p26')}
           />

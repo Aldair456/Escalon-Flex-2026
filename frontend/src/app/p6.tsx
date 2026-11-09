@@ -120,7 +120,7 @@ export default function P6() {
 
         <View style={styles.buttonWrapper}>
           <ContinueButton
-            label={scheduleEnded ? 'Ver mi resultado' : 'Ver mis cuotas'}
+            label={scheduleEnded ? 'Ver mi resultado' : 'Ver mis aportes'}
             onPress={() => router.push(scheduleEnded ? '/p9' : '/p7')}
           />
         </View>
