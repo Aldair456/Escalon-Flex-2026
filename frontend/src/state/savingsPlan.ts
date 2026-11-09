@@ -71,10 +71,15 @@ export type SavingsProgress = {
   totalAportes: number;
   paidCount: number;
   missedCount: number;
+  rescheduledCount: number;
+  onTimeCount: number;
+  score: number;
+  isConstant: boolean;
   paidAmount: number;
   remaining: number;
   frequencyLabel: string;
   levelLabel: string;
+  levelIndex: number;
   installments: SavingsInstallment[];
   nextInstallment: SavingsInstallment | null;
 };
@@ -140,19 +145,34 @@ export function getSavingsProgress(): SavingsProgress {
     };
   });
 
+  const missedCount = missedInstallments.size;
+  const rescheduledCount = Object.keys(rescheduledInstallments).length;
+  const onTimeCount = Math.max(0, paidCount - rescheduledCount);
+  const isConstant = paidCount > 0 && missedCount === 0;
+
+  const completionRatio = paidCount / total;
+  const punctualityRatio = missedCount === 0 ? 1 : Math.max(0, paidCount - missedCount) / total;
+  const score = Math.round(500 * completionRatio + 500 * punctualityRatio);
+
   const levelLabel =
     cursor === 0 ? 'Recién comenzando' : paidCount >= total ? 'Reto completado' : 'En construcción';
+  const levelIndex = cursor === 0 ? 1 : paidCount >= total ? 4 : missedCount > 0 ? 2 : 3;
 
   return {
     goalAmount: plan.goalAmount,
     aporteAmount: plan.aporteAmount,
     totalAportes: total,
     paidCount,
-    missedCount: missedInstallments.size,
+    missedCount,
+    rescheduledCount,
+    onTimeCount,
+    score,
+    isConstant,
     paidAmount,
     remaining,
     frequencyLabel: plan.frequencyLabel,
     levelLabel,
+    levelIndex,
     installments,
     nextInstallment: installments.find((item) => item.status === 'next') ?? null,
   };

@@ -4,31 +4,45 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { HabitsGauge } from '@/components/progress-overview/HabitsGauge';
+import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 import { shadows } from '@/theme/shadows';
 
-const HABITS_CHECKLIST = [
-  { id: 'ahorro', label: 'Ahorro constante', done: true },
-  { id: 'pagos', label: 'Pagos puntuales', done: true },
-  { id: 'actividad', label: 'Actividad en Yape', done: true },
-  { id: 'historial', label: 'Más historial', done: false },
-];
-
-const BEHAVIOR_STATS = [
-  { id: 'ahorro', value: '92%', label: 'de cumplimiento', title: 'Ahorro' },
-  { id: 'aportes', value: '10 de 12', label: '', title: 'Aportes a tiempo' },
-  { id: 'reprogramaciones', value: '2', label: '', title: 'Reprogramaciones' },
-];
-
-const LEVELS = [
-  { id: 1, label: 'Escalón 1', sublabel: 'Inicio', status: 'done' as const },
-  { id: 2, label: 'Escalón 2', sublabel: 'Constancia', status: 'done' as const },
-  { id: 3, label: 'Escalón 3', sublabel: 'Buen manejo', status: 'current' as const },
-  { id: 4, label: 'Escalón 4', sublabel: 'Listo para reevaluación', status: 'locked' as const },
+const LEVEL_META = [
+  { id: 1, label: 'Escalón 1', sublabel: 'Inicio' },
+  { id: 2, label: 'Escalón 2', sublabel: 'Constancia' },
+  { id: 3, label: 'Escalón 3', sublabel: 'Buen manejo' },
+  { id: 4, label: 'Escalón 4', sublabel: 'Listo para reevaluación' },
 ];
 
 export default function P28() {
+  const progress = getSavingsProgress();
+  const completionPercent = Math.round((progress.paidCount / progress.totalAportes) * 100);
+
+  const habitsChecklist = [
+    { id: 'ahorro', label: 'Ahorro constante', done: progress.isConstant },
+    { id: 'pagos', label: 'Pagos puntuales', done: progress.missedCount === 0 && progress.paidCount > 0 },
+    { id: 'actividad', label: 'Actividad en Yape', done: progress.isConstant },
+    { id: 'historial', label: 'Más historial', done: false },
+  ];
+
+  const behaviorStats = [
+    { id: 'ahorro', value: `${completionPercent}%`, label: 'de cumplimiento', title: 'Ahorro' },
+    { id: 'aportes', value: `${progress.onTimeCount} de ${progress.totalAportes}`, label: '', title: 'Aportes a tiempo' },
+    { id: 'reprogramaciones', value: String(progress.rescheduledCount), label: '', title: 'Reprogramaciones' },
+  ];
+
+  const levels = LEVEL_META.map((level) => ({
+    ...level,
+    status:
+      level.id < progress.levelIndex
+        ? ('done' as const)
+        : level.id === progress.levelIndex
+          ? ('current' as const)
+          : ('locked' as const),
+  }));
+
   return (
     <View style={styles.container}>
       <View style={styles.purpleSection}>
@@ -52,7 +66,9 @@ export default function P28() {
 
             <View style={styles.levelPill}>
               <Ionicons name="diamond" size={20} color={colors.badge} />
-              <Text style={styles.levelPillText}>Escalón 3 · Constante</Text>
+              <Text style={styles.levelPillText}>
+                Escalón {progress.levelIndex} · {LEVEL_META[progress.levelIndex - 1].sublabel}
+              </Text>
             </View>
           </View>
         </View>
@@ -67,10 +83,10 @@ export default function P28() {
           </View>
 
           <View style={styles.gaugeRow}>
-            <HabitsGauge value={720} max={1000} size={180} strokeWidth={18} />
+            <HabitsGauge value={progress.score} max={1000} size={180} strokeWidth={18} />
 
             <View style={styles.checklist}>
-              {HABITS_CHECKLIST.map((item) => (
+              {habitsChecklist.map((item) => (
                 <View key={item.id} style={styles.checklistRow}>
                   {item.done ? (
                     <Ionicons name="checkmark-circle" size={20} color={colors.accent} />
@@ -96,7 +112,7 @@ export default function P28() {
           <Text style={styles.cardTitle}>Tu comportamiento (últimos 6 meses)</Text>
 
           <View style={styles.behaviorRow}>
-            {BEHAVIOR_STATS.map((stat) => (
+            {behaviorStats.map((stat) => (
               <View key={stat.id} style={styles.behaviorColumn}>
                 {stat.id === 'ahorro' && (
                   <MaterialCommunityIcons name="piggy-bank-outline" size={28} color={colors.primary} />
@@ -118,7 +134,7 @@ export default function P28() {
           <Text style={styles.cardTitle}>Tu progreso en Escalón Flex</Text>
 
           <View style={styles.stepperRow}>
-            {LEVELS.map((level, index) => (
+            {levels.map((level, index) => (
               <View key={level.id} style={styles.stepperItem}>
                 <View style={styles.stepperNodeRow}>
                   <View
@@ -137,7 +153,7 @@ export default function P28() {
                     )}
                   </View>
 
-                  {index < LEVELS.length - 1 && (
+                  {index < levels.length - 1 && (
                     <View
                       style={[
                         styles.stepperLine,
