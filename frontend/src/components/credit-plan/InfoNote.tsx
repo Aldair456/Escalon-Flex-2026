@@ -5,7 +5,7 @@ import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 
 type InfoNoteProps = {
-  lead: string;
+  lead?: string;
   text: string;
 };
 
@@ -17,7 +17,7 @@ export function InfoNote({ lead, text }: InfoNoteProps) {
       </View>
 
       <Text style={styles.text}>
-        <Text style={styles.lead}>{lead} </Text>
+        {lead && <Text style={styles.lead}>{lead} </Text>}
         {text}
       </Text>
     </View>

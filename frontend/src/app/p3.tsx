@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BuildCreditHeader } from '@/components/credit-goal/BuildCreditHeader';
@@ -10,28 +11,30 @@ import { layout } from '@/theme/layout';
 export default function P3() {
   return (
     <View style={styles.container}>
-      <BuildCreditHeader title="Construye crédito" />
+      <BuildCreditHeader title="Construye tu ahorro" />
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        <Text style={styles.step}>Paso 3 de 3</Text>
         <Text style={styles.heading}>Así empiezas</Text>
 
         <InfoCard
           icon="shield-checkmark-outline"
-          title="Sin deudas reportadas"
-          description="Según tu reporte de deudas de la SBS"
+          title="Sin historial de ahorro aún"
+          description="Es el punto de partida para construir el tuyo"
         />
 
-        <LevelLadder title="Tu nivel Escalón" />
+        <LevelLadder
+          title="Tu nivel Escalón"
+          image={require('../../assets/illustrations/level-ladder-inicial.png')}
+        />
 
         <Text style={styles.paragraph}>
-          Todavía no tienes historial, y eso está bien. Vamos a construirlo juntos, a tu ritmo.
+          Todavía no tienes historial de ahorro, y eso está bien. Vamos a construirlo juntos, a tu ritmo.
         </Text>
 
         <Text style={styles.link}>Ver detalle de mi perfil</Text>
       </ScrollView>
 
-      <ContinueButton label="Ver mi reto" />
+      <ContinueButton label="Ver mi reto" onPress={() => router.push('/p5')} />
     </View>
   );
 }

@@ -1,22 +1,36 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 
 type PlanOptionCardProps = {
   amount: string;
+  frequency: string;
   note: string;
   recommended?: boolean;
   selected: boolean;
   onPress: () => void;
 };
 
-export function PlanOptionCard({ amount, note, recommended, selected, onPress }: PlanOptionCardProps) {
+export function PlanOptionCard({
+  amount,
+  frequency,
+  note,
+  recommended,
+  selected,
+  onPress,
+}: PlanOptionCardProps) {
   return (
     <Pressable style={[styles.container, selected && styles.containerSelected]} onPress={onPress}>
+      <Image
+        source={require('../../../assets/illustrations/coin-stack.png')}
+        style={styles.coin}
+        resizeMode="contain"
+      />
+
       <View style={styles.content}>
         <Text style={styles.amount}>
-          {amount} <Text style={styles.amountSuffix}>al mes</Text>
+          {amount} <Text style={styles.amountSuffix}>{frequency}</Text>
         </Text>
         <Text style={[styles.note, recommended && styles.noteRecommended]}>{note}</Text>
       </View>
@@ -32,6 +46,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 12,
     justifyContent: 'space-between',
     borderWidth: 1.5,
     borderColor: colors.border,
@@ -41,6 +56,10 @@ const styles = StyleSheet.create({
   },
   containerSelected: {
     borderColor: colors.primary,
+  },
+  coin: {
+    width: 36,
+    height: 36,
   },
   content: {
     flex: 1,

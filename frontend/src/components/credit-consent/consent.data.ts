@@ -24,6 +24,12 @@ export const dataUsageItems: DataUsageItem[] = [
     description: 'Recargas, planes y suscripciones',
     defaultOn: true,
   },
+  {
+    id: 'tarjeta',
+    title: 'Mi tarjeta BCP',
+    description: 'Movimientos y consumos, si tienes una vinculada a Yape',
+    defaultOn: true,
+  },
 ];
 
 export type VisibilityItem = {
