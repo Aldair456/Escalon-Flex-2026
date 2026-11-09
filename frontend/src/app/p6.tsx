@@ -22,6 +22,7 @@ export default function P6() {
   const paidSoFar = cuotaNumber * progress.aporteAmount;
   const thisInstallment = progress.installments.find((item) => item.number === cuotaNumber);
   const nextInstallment = progress.installments.find((item) => item.number === cuotaNumber + 1);
+  const operationNumber = String(4812300 + cuotaNumber * 7);
 
   return (
     <View style={styles.container}>
@@ -52,6 +53,11 @@ export default function P6() {
               lead="¡Completaste tu reto!"
               text={`Ya hiciste tus ${total} aportes. Revisa tu resultado final.`}
             />
+          ) : thisInstallment?.rescheduled ? (
+            <InfoNote
+              lead="Aporte reprogramado"
+              text={`Este aporte se registró con una nueva fecha. Te faltan ${remaining} aportes para completar tu meta. Ya ahorraste S/ ${paidSoFar} de tu meta.`}
+            />
           ) : (
             <InfoNote
               lead="¡Sigue así!"
@@ -64,7 +70,7 @@ export default function P6() {
           <Text style={styles.sectionLabel}>Datos del aporte</Text>
           <SummaryRow label="Aporte" value={`${cuotaNumber} de ${total}`} />
           <SummaryRow label="Destino" value="Mi reto Construye tu ahorro" />
-          <SummaryRow label="Nro. de operación" value="04812345" />
+          <SummaryRow label="Nro. de operación" value={operationNumber} />
           <SummaryRow label="Próximo aporte" value={nextInstallment?.date ?? '—'} />
 
           <View style={styles.divider} />
