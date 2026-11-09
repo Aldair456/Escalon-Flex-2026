@@ -34,7 +34,7 @@ export default function P26() {
           <Pressable onPress={() => router.back()} hitSlop={8}>
             <Ionicons name="arrow-back" size={24} color={colors.white} />
           </Pressable>
-          <Text style={styles.headerTitle}>Mis cuotas</Text>
+          <Text style={styles.headerTitle}>Mis aportes</Text>
 
           <Pressable onPress={() => router.push('/p28')} hitSlop={8}>
             <Ionicons name="person-circle-outline" size={28} color={colors.white} />
@@ -78,12 +78,12 @@ export default function P26() {
 
         <Pressable style={styles.simulatePill} onPress={() => router.push('/p30')}>
           <Ionicons name="calculator-outline" size={18} color={colors.primary} />
-          <Text style={styles.simulatePillText}>Simular microcrédito</Text>
+          <Text style={styles.simulatePillText}>Mira a qué podrías aspirar</Text>
           <Ionicons name="chevron-forward" size={16} color={colors.primary} />
         </Pressable>
 
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Cronograma de pagos</Text>
+          <Text style={styles.cardTitle}>Plan de aportes</Text>
 
           <Pressable style={styles.editPlanRow} onPress={() => router.push('/p27')}>
             <Ionicons name="create-outline" size={16} color={colors.primary} />
@@ -95,7 +95,7 @@ export default function P26() {
             <InstallmentTimelineRow
               key={item.id}
               number={item.number}
-              date={item.status === 'paid' ? 'Pagada' : item.date}
+              date={item.status === 'paid' ? 'Aportado' : item.date}
               status={item.status}
               rescheduled={item.rescheduled}
               isLast={index === progress.installments.length - 1}

@@ -35,7 +35,7 @@ export default function CreditNotAvailableScreen() {
           <View style={styles.newBadge}>
             <Text style={styles.newBadgeText}>NUEVO</Text>
           </View>
-          <Text style={styles.primaryLabel}>Construye tu historial crediticio</Text>
+          <Text style={styles.primaryLabel}>Construye tu perfil financiero</Text>
         </Pressable>
 
         <Pressable style={styles.secondaryButton}>

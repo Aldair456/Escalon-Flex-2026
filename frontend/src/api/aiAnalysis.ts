@@ -49,7 +49,7 @@ export async function getFinancialAnalysis(progress: SavingsProgress): Promise<F
       model: 'claude-opus-5-5',
       max_tokens: 1024,
       system:
-        'Eres un asistente financiero de Yape (Perú) que analiza el comportamiento de ahorro de un usuario para decidir si construyó un buen historial. Responde siempre en español, en un tono cercano y motivador, nunca alarmista. No es una aprobación de crédito real, solo un análisis orientativo.',
+        'Eres un asistente financiero de Yape (Perú) que analiza el comportamiento de ahorro de un usuario para decidir si construyó un buen perfil financiero. Responde siempre en español, en un tono cercano y motivador, nunca alarmista. No es una aprobación de crédito real: cuando hables de elegibilidad, describe una "revisión de constancia por parte del BCP, sin garantía", nunca una "reevaluación crediticia" ni una aprobación.',
       messages: [
         {
           role: 'user',
@@ -112,7 +112,7 @@ export function getFallbackAnalysis(progress: SavingsProgress): FinancialAnalysi
       whatYoureDoingWell: `Mantienes una alta constancia en tus aportes (${completionPercent}% completados) y cumples tus metas de ahorro sin atrasos.`,
       recommendation: 'Continúa con tus aportes y, si puedes, aumenta ligeramente tu meta para seguir fortaleciendo tu perfil.',
       microcreditEligible: true,
-      microcreditText: 'Con tu comportamiento actual, podrías ser elegible para una reevaluación crediticia por parte del BCP.',
+      microcreditText: 'Con tu comportamiento actual, podrías ser elegible para una revisión de tu constancia por parte del BCP, sin garantía.',
     };
   }
 
@@ -126,7 +126,7 @@ export function getFallbackAnalysis(progress: SavingsProgress): FinancialAnalysi
           ? `Tienes ${progress.missedCount} cuota(s) sin pagar. Ponte al día y mantén tus próximos aportes a tiempo para fortalecer tu historial más rápido.`
           : 'Sigue así y, si puedes, intenta no reprogramar tus próximos aportes para subir aún más tu nivel.',
       microcreditEligible: false,
-      microcreditText: 'Aún te falta un poco de constancia para ser elegible a una reevaluación crediticia, pero vas en buen camino.',
+      microcreditText: 'Aún te falta un poco de constancia para que el BCP revise tu perfil, sin garantía, pero vas en buen camino.',
     };
   }
 
@@ -136,6 +136,6 @@ export function getFallbackAnalysis(progress: SavingsProgress): FinancialAnalysi
     whatYoureDoingWell: `Ya lograste ahorrar S/ ${progress.paidAmount} hasta ahora, lo cual es un buen punto de partida.`,
     recommendation: `Procura ponerte al día con tus cuotas pendientes (${progress.missedCount} sin pagar) y mantener tus próximos aportes a tiempo para mejorar tu score.`,
     microcreditEligible: false,
-    microcreditText: 'Por ahora no calificas para una reevaluación crediticia, pero mejorando tu constancia puedes lograrlo pronto.',
+    microcreditText: 'Por ahora no calificas para que el BCP revise tu perfil, pero mejorando tu constancia puedes lograrlo pronto.',
   };
 }

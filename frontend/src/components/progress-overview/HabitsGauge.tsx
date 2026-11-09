@@ -8,6 +8,7 @@ type HabitsGaugeProps = {
   max: number;
   size?: number;
   strokeWidth?: number;
+  caption?: string;
 };
 
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
@@ -25,7 +26,7 @@ function describeArc(cx: number, cy: number, r: number, startAngle: number, endA
   return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`;
 }
 
-export function HabitsGauge({ value, max, size = 160, strokeWidth = 16 }: HabitsGaugeProps) {
+export function HabitsGauge({ value, max, size = 160, strokeWidth = 16, caption }: HabitsGaugeProps) {
   const radius = (size - strokeWidth) / 2;
   const cx = size / 2;
   const cy = size / 2;
@@ -62,6 +63,7 @@ export function HabitsGauge({ value, max, size = 160, strokeWidth = 16 }: Habits
           {value}
           <Text style={styles.max}> / {max.toLocaleString('es-PE')}</Text>
         </Text>
+        {caption && <Text style={styles.caption}>{caption}</Text>}
       </View>
     </View>
   );
@@ -86,5 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: colors.textMuted,
+  },
+  caption: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: colors.textMuted,
+    marginTop: 2,
   },
 });

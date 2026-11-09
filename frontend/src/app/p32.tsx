@@ -50,13 +50,13 @@ export default function P32() {
 
           <View style={styles.row}>
             <Text style={[styles.rowIcon, styles.percentIcon]}>%</Text>
-            <Text style={styles.rowLabel}>Tasa (mensual)</Text>
+            <Text style={styles.rowLabel}>Tasa (mensual, referencial)</Text>
             <Text style={styles.rowValue}>{term.tea}</Text>
           </View>
 
           <View style={styles.row}>
             <View style={styles.rowIcon} />
-            <Text style={styles.rowLabel}>TCEA (anual)</Text>
+            <Text style={styles.rowLabel}>TCEA (anual, referencial)</Text>
             <Text style={styles.rowValue}>≈ {term.tcea}</Text>
           </View>
 
@@ -81,7 +81,7 @@ export default function P32() {
           />
 
           <View style={styles.bubble}>
-            <Text style={styles.bubbleTitle}>¡Puedes acceder a este microcrédito!</Text>
+            <Text style={styles.bubbleTitle}>¿A qué podrías aspirar?</Text>
             <Text style={styles.bubbleDescription}>
               Según tu perfil y constancia de ahorro en Escalón Flex.
             </Text>
@@ -94,8 +94,8 @@ export default function P32() {
         </Text>
       </ScrollView>
 
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText}>Solicitar microcrédito</Text>
+      <Pressable style={styles.button} onPress={() => router.push('/p28')}>
+        <Text style={styles.buttonText}>Volver a mi perfil</Text>
       </Pressable>
 
       <Pressable style={styles.secondaryLink} onPress={() => router.back()}>

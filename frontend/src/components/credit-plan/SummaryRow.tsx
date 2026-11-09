@@ -6,13 +6,17 @@ type SummaryRowProps = {
   label: string;
   value: string;
   highlight?: boolean;
+  note?: string;
 };
 
-export function SummaryRow({ label, value, highlight }: SummaryRowProps) {
+export function SummaryRow({ label, value, highlight, note }: SummaryRowProps) {
   return (
-    <View style={styles.row}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={[styles.value, highlight && styles.valueHighlight]}>{value}</Text>
+    <View>
+      <View style={styles.row}>
+        <Text style={styles.label}>{label}</Text>
+        <Text style={[styles.value, highlight && styles.valueHighlight]}>{value}</Text>
+      </View>
+      {note && <Text style={styles.note}>{note}</Text>}
     </View>
   );
 }
@@ -34,5 +38,11 @@ const styles = StyleSheet.create({
   },
   valueHighlight: {
     color: colors.primary,
+  },
+  note: {
+    fontSize: 11,
+    color: colors.textMuted,
+    marginTop: -4,
+    marginBottom: 6,
   },
 });

@@ -103,12 +103,14 @@ export default function P29() {
                 <Ionicons name="sparkles" size={16} color={colors.badge} style={styles.highlightSparkle} />
               </View>
               <View style={styles.cardText}>
-                <Text style={styles.highlightTitle}>¿Puedes acceder a un microcrédito?</Text>
+                <Text style={styles.highlightTitle}>¿A qué podrías aspirar?</Text>
                 <Text style={styles.cardDescription}>{analysis.microcreditText}</Text>
               </View>
             </View>
 
-            {analysis.microcreditEligible && <ContinueButton label="Solicitar reevaluación" />}
+            {analysis.microcreditEligible && (
+              <ContinueButton label="Compartir mi constancia con el BCP" />
+            )}
             <ContinueButton label="Ver detalles del análisis" variant="secondary" />
 
             <View style={styles.disclaimerRow}>

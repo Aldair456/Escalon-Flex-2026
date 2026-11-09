@@ -58,8 +58,8 @@ export default function P11() {
 
         <Text style={styles.sectionLabel}>Datos sobre el crédito</Text>
         <SummaryRow label="Monto de cuota" value={`S/ ${installment.toFixed(2)}`} highlight />
-        <SummaryRow label="Tasa mensual" value={term.tea} />
-        <SummaryRow label="TCEA anual" value={term.tcea} />
+        <SummaryRow label="Tasa mensual" value={term.tea} note="Referencial, no es una oferta" />
+        <SummaryRow label="TCEA anual" value={term.tcea} note="Referencial, no es una oferta" />
         <SummaryRow label="Intereses" value={`S/ ${interest.toFixed(2)}`} />
         <SummaryRow label="Monto total a pagar" value={`S/ ${total.toFixed(2)}`} />
         <SummaryRow label="Forma de pago" value="Cobro automático" />

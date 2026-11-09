@@ -13,7 +13,7 @@ const LEVEL_META = [
   { id: 1, label: 'Escalón 1', sublabel: 'Inicio' },
   { id: 2, label: 'Escalón 2', sublabel: 'Constancia' },
   { id: 3, label: 'Escalón 3', sublabel: 'Buen manejo' },
-  { id: 4, label: 'Escalón 4', sublabel: 'Listo para reevaluación' },
+  { id: 4, label: 'Escalón 4', sublabel: 'Constancia lista' },
 ];
 
 export default function P28() {
@@ -83,7 +83,13 @@ export default function P28() {
           </View>
 
           <View style={styles.gaugeRow}>
-            <HabitsGauge value={progress.score} max={1000} size={180} strokeWidth={18} />
+            <HabitsGauge
+              value={progress.score}
+              max={1000}
+              size={180}
+              strokeWidth={18}
+              caption="Puntaje de constancia"
+            />
 
             <View style={styles.checklist}>
               {habitsChecklist.map((item) => (
