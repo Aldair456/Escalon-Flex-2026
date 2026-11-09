@@ -5,11 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { InfoNote } from '@/components/credit-plan/InfoNote';
 import { SummaryRow } from '@/components/credit-plan/SummaryRow';
+import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 import { layout } from '@/theme/layout';
 
 export default function P24() {
+  const progress = getSavingsProgress();
+  const fullyCompleted = progress.paidCount >= progress.totalAportes;
+  const bonus = fullyCompleted ? 5 : 0;
+  const total = progress.paidAmount + bonus;
+
   return (
     <View style={styles.container}>
       <SafeAreaView edges={['top']} style={styles.header}>
@@ -26,15 +32,17 @@ export default function P24() {
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <Text style={styles.heroLabel}>Tu aval disponible</Text>
-        <Text style={styles.heroAmount}>S/ 305.00</Text>
+        <Text style={styles.heroAmount}>S/ {total.toFixed(2)}</Text>
         <Text style={styles.heroNote}>Disponible para cubrir emergencias</Text>
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Detalle de tu aval</Text>
 
-          <SummaryRow label="Monto liberado" value="S/ 300.00" />
-          <SummaryRow label="Bono por completar tu reto" value="+S/ 5.00" />
-          <SummaryRow label="Total disponible" value="S/ 305.00" highlight />
+          <SummaryRow label="Monto liberado" value={`S/ ${progress.paidAmount.toFixed(2)}`} />
+          {fullyCompleted && (
+            <SummaryRow label="Bono por completar tu reto" value={`+S/ ${bonus.toFixed(2)}`} />
+          )}
+          <SummaryRow label="Total disponible" value={`S/ ${total.toFixed(2)}`} highlight />
         </View>
 
         <View style={styles.card}>
