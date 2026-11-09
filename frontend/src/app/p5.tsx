@@ -15,7 +15,7 @@ export default function P5() {
 
   return (
     <View style={styles.container}>
-      <BuildCreditHeader title="Construye tu ahorro" />
+      <BuildCreditHeader title="Construye tu perfil" />
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <SuccessBadge />

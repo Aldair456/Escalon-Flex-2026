@@ -22,7 +22,7 @@ export default function P1() {
 
   return (
     <View style={styles.container}>
-      <BuildCreditHeader title="Construye tu ahorro" />
+      <BuildCreditHeader title="Construye tu perfil" />
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <Text style={styles.heading}>¿Para qué quieres ahorrar?</Text>

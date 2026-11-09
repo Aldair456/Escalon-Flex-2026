@@ -21,7 +21,7 @@ export const quickActions: QuickAction[] = [
   },
   {
     id: 'construye-credito',
-    label: 'Construye tu ahorro',
+    label: 'Construye tu perfil',
     image: require('../../../assets/illustrations/credit-steps.png'),
     route: '/p7',
     badge: 'Nuevo',
