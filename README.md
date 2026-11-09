@@ -44,4 +44,8 @@ npm run start
 
 ## Screenshots
 
-_(próximamente)_
+| | |
+|---|---|
+| ![Arma tu plan de ahorro](docs/screenshots/01-plan-ahorro-monto.png) | ![Frecuencia y resumen del plan](docs/screenshots/02-plan-ahorro-frecuencia.png) |
+| ![Tu ahorro, tu compromiso](docs/screenshots/03-compromiso-ahorro.png) | ![Mis cuotas](docs/screenshots/04-mis-cuotas.png) |
+| ![Mi perfil financiero](docs/screenshots/05-perfil-financiero.png) | ![Análisis de perfil con IA](docs/screenshots/06-analisis-ia.png) |
