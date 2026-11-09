@@ -7,8 +7,8 @@ export type CreditGoalOption = {
 };
 
 export const creditGoalOptions: CreditGoalOption[] = [
-  { id: 'tarjeta', label: 'Mi primera tarjeta', icon: 'card-outline' },
-  { id: 'prestamo', label: 'Un préstamo', icon: 'cash-outline' },
+  { id: 'tarjeta', label: 'Un colchón de emergencia', icon: 'card-outline' },
+  { id: 'prestamo', label: 'Una meta personal', icon: 'cash-outline' },
   { id: 'negocio', label: 'Emprender un negocio', icon: 'briefcase-outline' },
   { id: 'no-se', label: 'Aún no sé', icon: 'help-circle-outline' },
 ];

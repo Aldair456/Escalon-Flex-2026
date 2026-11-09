@@ -1,19 +1,20 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, type ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 
 type LevelLadderProps = {
   title: string;
+  image?: ImageSourcePropType;
 };
 
-export function LevelLadder({ title }: LevelLadderProps) {
+export function LevelLadder({ title, image }: LevelLadderProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
 
       <Image
-        source={require('../../../assets/illustrations/level-ladder.png')}
+        source={image ?? require('../../../assets/illustrations/level-ladder.png')}
         style={styles.image}
         resizeMode="contain"
       />
@@ -23,6 +24,7 @@ export function LevelLadder({ title }: LevelLadderProps) {
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     backgroundColor: colors.white,
     borderWidth: 1,
     borderColor: colors.border,

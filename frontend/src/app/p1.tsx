@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -5,7 +6,6 @@ import { BuildCreditHeader } from '@/components/credit-goal/BuildCreditHeader';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
 import { GoalOptionCard } from '@/components/credit-goal/GoalOptionCard';
 import { creditGoalOptions, creditUsageOptions } from '@/components/credit-goal/goals.data';
-import { StepProgress } from '@/components/credit-goal/StepProgress';
 import { UsageChip } from '@/components/credit-goal/UsageChip';
 import { colors } from '@/theme/colors';
 import { layout } from '@/theme/layout';
@@ -22,11 +22,10 @@ export default function P1() {
 
   return (
     <View style={styles.container}>
-      <BuildCreditHeader title="Construye crédito" />
+      <BuildCreditHeader title="Construye tu ahorro" />
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        <StepProgress current={1} total={3} />
-        <Text style={styles.heading}>¿Para qué quieres construir tu crédito?</Text>
+        <Text style={styles.heading}>¿Para qué quieres ahorrar?</Text>
 
         {creditGoalOptions.map((option) => (
           <GoalOptionCard
@@ -58,7 +57,7 @@ export default function P1() {
         />
       </ScrollView>
 
-      <ContinueButton label="Continuar" />
+      <ContinueButton label="Continuar" onPress={() => router.push('/p2')} />
     </View>
   );
 }

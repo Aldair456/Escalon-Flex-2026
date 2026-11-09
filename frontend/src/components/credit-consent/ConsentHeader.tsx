@@ -7,7 +7,7 @@ import { colors } from '@/theme/colors';
 
 type ConsentHeaderProps = {
   title: string;
-  step: string;
+  step?: string;
 };
 
 export function ConsentHeader({ title, step }: ConsentHeaderProps) {
@@ -18,7 +18,7 @@ export function ConsentHeader({ title, step }: ConsentHeaderProps) {
       </Pressable>
 
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.step}>{step}</Text>
+      {step && <Text style={styles.step}>{step}</Text>}
     </SafeAreaView>
   );
 }

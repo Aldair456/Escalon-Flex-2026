@@ -5,13 +5,14 @@ import { colors } from '@/theme/colors';
 type SummaryRowProps = {
   label: string;
   value: string;
+  highlight?: boolean;
 };
 
-export function SummaryRow({ label, value }: SummaryRowProps) {
+export function SummaryRow({ label, value, highlight }: SummaryRowProps) {
   return (
     <View style={styles.row}>
       <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{value}</Text>
+      <Text style={[styles.value, highlight && styles.valueHighlight]}>{value}</Text>
     </View>
   );
 }
@@ -30,5 +31,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '800',
     color: colors.text,
+  },
+  valueHighlight: {
+    color: colors.primary,
   },
 });
