@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
 import { UsageChip } from '@/components/credit-goal/UsageChip';
 import { InstallmentTimelineRow } from '@/components/payment-schedule/InstallmentTimelineRow';
-import { getSavingsPlan } from '@/state/savingsPlan';
+import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 import { shadows } from '@/theme/shadows';
@@ -20,14 +20,8 @@ const WITHDRAW_REASONS = [
 ];
 
 export default function P26() {
-  const plan = getSavingsPlan();
-  const goalAmount = plan?.goalAmount ?? 300;
-  const totalAportes = plan?.estimatedAportes ?? 6;
-
-  const completedInstallments = Array.from({ length: totalAportes }, (_, index) => ({
-    id: String(index + 1),
-    number: index + 1,
-  }));
+  const progress = getSavingsProgress();
+  const fillPercent = Math.round((progress.paidCount / progress.totalAportes) * 100);
 
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [selectedReason, setSelectedReason] = useState<string | null>(null);
@@ -51,15 +45,16 @@ export default function P26() {
           <View style={styles.progressBlock}>
             <Text style={styles.progressEyebrow}>Tu avance</Text>
             <Text style={styles.progressValue}>
-              {totalAportes} de {totalAportes} aportes
+              {progress.paidCount} de {progress.totalAportes} aportes
             </Text>
 
             <View style={styles.track}>
-              <View style={styles.fillComplete} />
+              <View style={[styles.fill, { width: `${fillPercent}%` }]} />
             </View>
 
             <Text style={styles.progressSaved}>
-              <Text style={styles.progressSavedBold}>S/ {goalAmount}</Text> de S/ {goalAmount} ahorrados
+              <Text style={styles.progressSavedBold}>S/ {progress.paidAmount}</Text> de S/{' '}
+              {progress.goalAmount} ahorrados
             </Text>
           </View>
 
@@ -74,7 +69,11 @@ export default function P26() {
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <View style={styles.completeBanner}>
           <Ionicons name="trophy-outline" size={22} color={colors.primary} />
-          <Text style={styles.completeBannerText}>¡Completaste tu reto! Tu ahorro ya está disponible.</Text>
+          <Text style={styles.completeBannerText}>
+            {progress.missedCount > 0
+              ? `¡Completaste tu reto! Tuviste ${progress.missedCount} cuota(s) no pagada(s), pero tu ahorro ya está disponible.`
+              : '¡Completaste tu reto! Tu ahorro ya está disponible.'}
+          </Text>
         </View>
 
         <Pressable style={styles.simulatePill} onPress={() => router.push('/p30')}>
@@ -92,20 +91,21 @@ export default function P26() {
             <Ionicons name="chevron-forward" size={16} color={colors.primary} />
           </Pressable>
 
-          {completedInstallments.map((item, index) => (
+          {progress.installments.map((item, index) => (
             <InstallmentTimelineRow
               key={item.id}
               number={item.number}
-              date="Pagada"
-              status="paid"
-              isLast={index === completedInstallments.length - 1}
+              date={item.status === 'paid' ? 'Pagada' : item.date}
+              status={item.status}
+              rescheduled={item.rescheduled}
+              isLast={index === progress.installments.length - 1}
             />
           ))}
         </View>
       </ScrollView>
 
       <ContinueButton
-        label={`Retirar S/ ${goalAmount}`}
+        label={`Retirar S/ ${progress.paidAmount}`}
         icon="wallet-outline"
         onPress={() => setShowWithdrawModal(true)}
       />
@@ -128,7 +128,7 @@ export default function P26() {
                   <Ionicons name="checkmark" size={26} color={colors.white} />
                 </View>
                 <Text style={styles.modalTitle}>¡Listo! Retiraste tu ahorro</Text>
-                <Text style={styles.modalBody}>Tus S/ {goalAmount} ya están en tu Yape.</Text>
+                <Text style={styles.modalBody}>Tus S/ {progress.paidAmount} ya están en tu Yape.</Text>
 
                 <Pressable
                   style={styles.modalButton}
@@ -223,8 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: 'rgba(255,255,255,0.3)',
   },
-  fillComplete: {
-    width: '100%',
+  fill: {
     height: 8,
     borderRadius: 4,
     backgroundColor: colors.accent,
