@@ -1,15 +1,38 @@
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { getFinancialAnalysis, type FinancialAnalysis } from '@/api/aiAnalysis';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
+import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { layout } from '@/theme/layout';
 import { radii } from '@/theme/radii';
 import { shadows } from '@/theme/shadows';
 
 export default function P29() {
+  const [analysis, setAnalysis] = useState<FinancialAnalysis | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const progress = getSavingsProgress();
+
+    getFinancialAnalysis(progress)
+      .then((result) => {
+        if (!cancelled) setAnalysis(result);
+      })
+      .catch(() => {
+        if (!cancelled) setError(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.purpleSection}>
@@ -27,70 +50,82 @@ export default function P29() {
       </View>
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        {/* Mascota + burbuja */}
-        <View style={styles.botRow}>
-          <Image
-            source={require('../../assets/illustrations/ai-robot-mascot.png')}
-            style={styles.botAvatar}
-            resizeMode="contain"
-          />
+        {!analysis && !error && (
+          <View style={styles.loadingWrap}>
+            <ActivityIndicator size="large" color={colors.primary} />
+            <Text style={styles.loadingText}>Analizando tu comportamiento financiero...</Text>
+          </View>
+        )}
 
-          <View style={styles.botBubble}>
-            <Text style={styles.botBubbleText}>¡Tu comportamiento financiero es positivo! 🎉</Text>
+        {error && (
+          <View style={styles.loadingWrap}>
+            <Ionicons name="alert-circle-outline" size={32} color={colors.textMuted} />
+            <Text style={styles.loadingText}>No pudimos generar tu análisis. Intenta de nuevo más tarde.</Text>
           </View>
-        </View>
+        )}
 
-        {/* Lo que estás haciendo bien */}
-        <View style={styles.card}>
-          <View style={[styles.cardIcon, styles.cardIconGreen]}>
-            <Ionicons name="checkmark" size={23} color={colors.white} />
-          </View>
-          <View style={styles.cardText}>
-            <Text style={styles.cardTitle}>Lo que estás haciendo bien</Text>
-            <Text style={styles.cardDescription}>
-              Mantienes una alta constancia en tus aportes (92%) y cumples tus metas de ahorro.
-            </Text>
-          </View>
-        </View>
+        {analysis && (
+          <>
+            {/* Mascota + burbuja */}
+            <View style={styles.botRow}>
+              <Image
+                source={require('../../assets/illustrations/ai-robot-mascot.png')}
+                style={styles.botAvatar}
+                resizeMode="contain"
+              />
 
-        {/* Nuestra recomendación */}
-        <View style={styles.card}>
-          <View style={[styles.cardIcon, styles.cardIconYellow]}>
-            <Ionicons name="bulb" size={23} color={colors.white} />
-          </View>
-          <View style={styles.cardText}>
-            <Text style={styles.cardTitle}>Nuestra recomendación</Text>
-            <Text style={styles.cardDescription}>
-              Continúa con tus aportes y, si puedes, aumenta ligeramente tu meta para seguir fortaleciendo
-              tu perfil.
-            </Text>
-          </View>
-        </View>
+              <View style={styles.botBubble}>
+                <Text style={styles.botBubbleText}>{analysis.summary}</Text>
+              </View>
+            </View>
 
-        {/* Microcrédito */}
-        <View style={styles.highlightCard}>
-          <View style={styles.highlightIconWrap}>
-            <FontAwesome5 name="coins" size={25} color={colors.white} />
-            <Ionicons name="sparkles" size={16} color={colors.badge} style={styles.highlightSparkle} />
-          </View>
-          <View style={styles.cardText}>
-            <Text style={styles.highlightTitle}>¿Puedes acceder a un microcrédito?</Text>
-            <Text style={styles.cardDescription}>
-              Con tu comportamiento actual, podrías ser elegible para una reevaluación crediticia por
-              parte del BCP.
-            </Text>
-          </View>
-        </View>
+            {/* Lo que estás haciendo bien */}
+            <View style={styles.card}>
+              <View style={[styles.cardIcon, analysis.isPositive ? styles.cardIconGreen : styles.cardIconYellow]}>
+                <Ionicons name={analysis.isPositive ? 'checkmark' : 'alert'} size={23} color={colors.white} />
+              </View>
+              <View style={styles.cardText}>
+                <Text style={styles.cardTitle}>
+                  {analysis.isPositive ? 'Lo que estás haciendo bien' : 'Lo que podemos mejorar'}
+                </Text>
+                <Text style={styles.cardDescription}>{analysis.whatYoureDoingWell}</Text>
+              </View>
+            </View>
 
-        <ContinueButton label="Solicitar reevaluación" />
-        <ContinueButton label="Ver detalles del análisis" variant="secondary" />
+            {/* Nuestra recomendación */}
+            <View style={styles.card}>
+              <View style={[styles.cardIcon, styles.cardIconYellow]}>
+                <Ionicons name="bulb" size={23} color={colors.white} />
+              </View>
+              <View style={styles.cardText}>
+                <Text style={styles.cardTitle}>Nuestra recomendación</Text>
+                <Text style={styles.cardDescription}>{analysis.recommendation}</Text>
+              </View>
+            </View>
 
-        <View style={styles.disclaimerRow}>
-          <Ionicons name="information-circle-outline" size={20} color={colors.textMuted} />
-          <Text style={styles.disclaimerText}>
-            Este análisis es orientativo y no representa una aprobación ni una oferta de crédito.
-          </Text>
-        </View>
+            {/* Microcrédito */}
+            <View style={styles.highlightCard}>
+              <View style={styles.highlightIconWrap}>
+                <FontAwesome5 name="coins" size={25} color={colors.white} />
+                <Ionicons name="sparkles" size={16} color={colors.badge} style={styles.highlightSparkle} />
+              </View>
+              <View style={styles.cardText}>
+                <Text style={styles.highlightTitle}>¿Puedes acceder a un microcrédito?</Text>
+                <Text style={styles.cardDescription}>{analysis.microcreditText}</Text>
+              </View>
+            </View>
+
+            {analysis.microcreditEligible && <ContinueButton label="Solicitar reevaluación" />}
+            <ContinueButton label="Ver detalles del análisis" variant="secondary" />
+
+            <View style={styles.disclaimerRow}>
+              <Ionicons name="information-circle-outline" size={20} color={colors.textMuted} />
+              <Text style={styles.disclaimerText}>
+                Este análisis es orientativo y no representa una aprobación ni una oferta de crédito.
+              </Text>
+            </View>
+          </>
+        )}
       </ScrollView>
     </View>
   );
@@ -133,6 +168,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 7,
+  },
+  loadingWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
+    gap: 14,
+  },
+  loadingText: {
+    fontSize: 14,
+    color: colors.textMuted,
+    textAlign: 'center',
+    paddingHorizontal: 24,
   },
   botRow: {
     flexDirection: 'row',
