@@ -85,3 +85,57 @@ export async function getFinancialAnalysis(progress: SavingsProgress): Promise<F
 
   return AnalysisSchema.parse(JSON.parse(textBlock.text));
 }
+
+/**
+ * Análisis calculado localmente cuando la IA no responde (sin créditos, sin red, etc.).
+ * Usa la misma data real del usuario, con reglas por rangos de score/constancia.
+ */
+export function getFallbackAnalysis(progress: SavingsProgress): FinancialAnalysis {
+  const completionPercent =
+    progress.totalAportes > 0 ? Math.round((progress.paidCount / progress.totalAportes) * 100) : 0;
+
+  if (progress.paidCount === 0) {
+    return {
+      isPositive: true,
+      summary: '¡Apenas estás comenzando! 🚀',
+      whatYoureDoingWell: `Ya creaste tu plan de ahorro con una meta de S/ ${progress.goalAmount}. Ese primer paso ya cuenta para construir tu historial.`,
+      recommendation: `Haz tu primer aporte de S/ ${progress.aporteAmount} para empezar a sumar a tu perfil financiero.`,
+      microcreditEligible: false,
+      microcreditText: 'Todavía no tienes historial suficiente. En cuanto empieces a pagar tus cuotas, podrás ser evaluado.',
+    };
+  }
+
+  if (progress.score >= 750 && progress.missedCount === 0) {
+    return {
+      isPositive: true,
+      summary: '¡Tu comportamiento financiero es positivo! 🎉',
+      whatYoureDoingWell: `Mantienes una alta constancia en tus aportes (${completionPercent}% completados) y cumples tus metas de ahorro sin atrasos.`,
+      recommendation: 'Continúa con tus aportes y, si puedes, aumenta ligeramente tu meta para seguir fortaleciendo tu perfil.',
+      microcreditEligible: true,
+      microcreditText: 'Con tu comportamiento actual, podrías ser elegible para una reevaluación crediticia por parte del BCP.',
+    };
+  }
+
+  if (progress.score >= 450) {
+    return {
+      isPositive: true,
+      summary: '¡Vas por buen camino! 💪',
+      whatYoureDoingWell: `Llevas ${progress.paidCount} de ${progress.totalAportes} aportes pagados (${completionPercent}%) y S/ ${progress.paidAmount} ahorrados, mostrando compromiso con tu meta.`,
+      recommendation:
+        progress.missedCount > 0
+          ? `Tienes ${progress.missedCount} cuota(s) sin pagar. Ponte al día y mantén tus próximos aportes a tiempo para fortalecer tu historial más rápido.`
+          : 'Sigue así y, si puedes, intenta no reprogramar tus próximos aportes para subir aún más tu nivel.',
+      microcreditEligible: false,
+      microcreditText: 'Aún te falta un poco de constancia para ser elegible a una reevaluación crediticia, pero vas en buen camino.',
+    };
+  }
+
+  return {
+    isPositive: false,
+    summary: 'Tu comportamiento financiero necesita un empujón 💡',
+    whatYoureDoingWell: `Ya lograste ahorrar S/ ${progress.paidAmount} hasta ahora, lo cual es un buen punto de partida.`,
+    recommendation: `Procura ponerte al día con tus cuotas pendientes (${progress.missedCount} sin pagar) y mantener tus próximos aportes a tiempo para mejorar tu score.`,
+    microcreditEligible: false,
+    microcreditText: 'Por ahora no calificas para una reevaluación crediticia, pero mejorando tu constancia puedes lograrlo pronto.',
+  };
+}

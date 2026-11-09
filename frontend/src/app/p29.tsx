@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { getFinancialAnalysis, type FinancialAnalysis } from '@/api/aiAnalysis';
+import { getFallbackAnalysis, getFinancialAnalysis, type FinancialAnalysis } from '@/api/aiAnalysis';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
 import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
@@ -14,7 +14,6 @@ import { shadows } from '@/theme/shadows';
 
 export default function P29() {
   const [analysis, setAnalysis] = useState<FinancialAnalysis | null>(null);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -24,8 +23,9 @@ export default function P29() {
       .then((result) => {
         if (!cancelled) setAnalysis(result);
       })
-      .catch(() => {
-        if (!cancelled) setError(true);
+      .catch((err) => {
+        console.error('getFinancialAnalysis failed, using fallback:', err);
+        if (!cancelled) setAnalysis(getFallbackAnalysis(progress));
       });
 
     return () => {
@@ -50,17 +50,10 @@ export default function P29() {
       </View>
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        {!analysis && !error && (
+        {!analysis && (
           <View style={styles.loadingWrap}>
             <ActivityIndicator size="large" color={colors.primary} />
             <Text style={styles.loadingText}>Analizando tu comportamiento financiero...</Text>
-          </View>
-        )}
-
-        {error && (
-          <View style={styles.loadingWrap}>
-            <Ionicons name="alert-circle-outline" size={32} color={colors.textMuted} />
-            <Text style={styles.loadingText}>No pudimos generar tu análisis. Intenta de nuevo más tarde.</Text>
           </View>
         )}
 
