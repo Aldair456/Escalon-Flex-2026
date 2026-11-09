@@ -4,11 +4,15 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BuildCreditHeader } from '@/components/credit-goal/BuildCreditHeader';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
 import { InfoNote } from '@/components/credit-plan/InfoNote';
+import { getSavingsPlan } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 import { layout } from '@/theme/layout';
 
 export default function P20() {
+  const plan = getSavingsPlan();
+  const approvedAmount = plan?.goalAmount ?? 300;
+
   return (
     <View style={styles.container}>
       <BuildCreditHeader title="Tu monto aprobado" />
@@ -18,7 +22,7 @@ export default function P20() {
 
         <View style={styles.amountCard}>
           <Text style={styles.amountLabel}>Yape decidió prestarte</Text>
-          <Text style={styles.amount}>S/ 300</Text>
+          <Text style={styles.amount}>S/ {approvedAmount}</Text>
           <Text style={styles.amountNote}>Monto estimado para tu reto Construye crédito</Text>
         </View>
 

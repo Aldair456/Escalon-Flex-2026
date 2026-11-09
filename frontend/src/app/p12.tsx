@@ -7,6 +7,7 @@ import { CreditCardPreview } from '@/components/card-offer/CreditCardPreview';
 import { ConsentHeader } from '@/components/credit-consent/ConsentHeader';
 import { ToggleRow } from '@/components/credit-consent/ToggleRow';
 import { ContinueButton } from '@/components/credit-goal/ContinueButton';
+import { getSavingsProgress } from '@/state/savingsPlan';
 import { colors } from '@/theme/colors';
 import { radii } from '@/theme/radii';
 
@@ -14,6 +15,7 @@ const benefits = ['Sin membresía', 'Compras en cuotas', 'Se reporta a la SBS: e
 
 export default function P12() {
   const [useSavings, setUseSavings] = useState(false);
+  const progress = getSavingsProgress();
 
   return (
     <View style={styles.container}>
@@ -39,7 +41,7 @@ export default function P12() {
         <View style={styles.toggleCard}>
           <ToggleRow
             title="Usa tu ahorro como respaldo"
-            description="Reserva tus S/ 300 y sube tu línea"
+            description={`Reserva tus S/ ${progress.paidAmount} y sube tu línea`}
             value={useSavings}
             onValueChange={setUseSavings}
             showBorder={false}
